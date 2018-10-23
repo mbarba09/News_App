@@ -5,11 +5,15 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -27,6 +31,13 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     private LinearLayout mEmptyView;
 
     private TextView mEmptyTextView;
+
+    /**
+     * URL for guardian data from guardian
+     */
+    private static final String GUARDIAN_URL =
+            "http://content.guardianapis.com/search?";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +93,47 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     }
 
     @Override
-    public Loader<List<News>> onCreateLoader(int id, Bundle args) {
-        // Create a new loader for the given URL
-        return new NewsLoader(this);
+    // This method initialize the contents of the Activity's options menu.
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the Options Menu we specified in XML
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String pageNumber = sharedPrefs.getString(
+                getString(R.string.settings_page_key),
+                getString(R.string.settings_page_default));
+
+        String yourInterested = sharedPrefs.getString(
+                getString(R.string.settings_interest_key),
+                getString(R.string.settings_page_default));
+
+        Uri baseUri = Uri.parse(GUARDIAN_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter("show-fields", "byline");
+        uriBuilder.appendQueryParameter("page-size", pageNumber);
+        uriBuilder.appendQueryParameter("q", yourInterested);
+        uriBuilder.appendQueryParameter("api-key", "test");
+
+        return new NewsLoader(this, uriBuilder.toString());
+    }
+
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {

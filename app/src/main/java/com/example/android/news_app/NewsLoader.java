@@ -8,13 +8,15 @@ import java.util.List;
 
 public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
-    /** Query URL */
-    private static String REQUEST_URL =
-            "http://content.guardianapis.com/search?show-tags=contributor&api-key=test";
+    /**
+     * Query URL
+     */
+    String mUrl;
 
 
-    public NewsLoader(Context context) {
+    public NewsLoader(Context context, String url) {
         super(context);
+        mUrl = url;
     }
     @Override
     protected void onStartLoading() {
@@ -23,12 +25,12 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     @Override
     public List<News> loadInBackground() {
-        if (REQUEST_URL == null) {
+        if (mUrl == null) {
             return null;
         }
 
 //        Perform the network request, parse the response, and extract a list of news.
-        List<News> newsList = QueryUtils.fetchNewsData(REQUEST_URL);
+        List<News> newsList = QueryUtils.fetchNewsData(mUrl);
         return newsList;
     }
 }

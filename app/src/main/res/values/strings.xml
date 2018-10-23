@@ -3,4 +3,15 @@
     <string name="no_content">No News Available</string>
     <string name="no_internet">No Internet Connection! Check your connection and try again.</string>
     <string name="news_error">No news available! Check your internet connection and try again.</string>
+
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">News Settings</string>
+
+    <string name="settings_page_label">Page</string>
+    <string name="settings_page_key" translatable="false">Article max</string>
+    <string name="settings_page_default" translatable="false">10</string>
+
+    <string name="settings_interest_label">Your Interest</string>
+    <string name="settings_interest_key" translatable="false">what are you interested in?</string>
+    <string name="settings_interest_default" translatable="false">sports</string>
 </resources>
