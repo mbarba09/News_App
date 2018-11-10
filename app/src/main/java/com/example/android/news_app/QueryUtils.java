@@ -175,11 +175,10 @@ public class QueryUtils {
                 String date = currentResults.getString("webPublicationDate");
                 date = formatDate(date);
                 String url = currentResults.getString("webUrl");
-                JSONArray tags = currentResults.getJSONArray("tags");
                 String author = "";
-                if (tags.length() != 0) {
-                    JSONObject currenttagsauthor = tags.getJSONObject(0);
-                    author = currenttagsauthor.getString("webTitle");
+                if (currentResults.has("tags")) {
+                    JSONObject tags = currentResults.getJSONObject("tags");
+                    author = tags.getString("webTitle");
                 } else {
                     author = "No Author ..";
                 }
