@@ -176,9 +176,9 @@ public class QueryUtils {
                 date = formatDate(date);
                 String url = currentResults.getString("webUrl");
                 String author = "";
-                if (currentResults.has("tags")) {
-                    JSONObject tags = currentResults.getJSONObject("tags");
-                    author = tags.getString("webTitle");
+                if (currentResults.has("fields")) {
+                    JSONObject fields = currentResults.getJSONObject("fields");
+                    author = fields.getString("byline");
                 } else {
                     author = "No Author ..";
                 }
