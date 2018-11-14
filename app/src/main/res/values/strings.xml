@@ -14,4 +14,5 @@
     <string name="settings_interest_label">Your Interest</string>
     <string name="settings_interest_key" translatable="false">what are you interested in?</string>
     <string name="settings_interest_default" translatable="false">news</string>
+    <string name="queryutils_no_author">No Author</string>
 </resources>

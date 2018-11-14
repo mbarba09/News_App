@@ -1,5 +1,7 @@
 package com.example.android.news_app;
 
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 
-public class QueryUtils {
+public class QueryUtils extends AppCompatActivity {
 
     /**
      * Create a private constructor because no one should ever create a {@link QueryUtils} object.
@@ -175,12 +177,14 @@ public class QueryUtils {
                 String date = currentResults.getString("webPublicationDate");
                 date = formatDate(date);
                 String url = currentResults.getString("webUrl");
-                String author = "";
+                String author;
                 if (currentResults.has("fields")) {
                     JSONObject fields = currentResults.getJSONObject("fields");
                     author = fields.getString("byline");
                 } else {
-                    author = "No Author ..";
+
+                    Context context = null;
+                    author = context.getString(R.string.queryutils_no_author);
                 }
 
 //                Create a new {@link News} object with the url, title, sectionName, author, date
